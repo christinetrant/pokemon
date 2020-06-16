@@ -22,40 +22,37 @@ class App extends Component {
     const resp = await fetch(url)
     const allData = await resp.json()
     let array = [];
+    // console.log(allData.results)
     // includes name and url to more infomation
     this.setState({ pokemon: allData.results }, async () => {
       // then need to loop through all links with extra info:
       try {
         array = await Promise.all(allData.results.map(async poke => {
-              // console.log(poke.url)
-              // we need to fetch the new url to get additional info:
-              const infoUrl = poke.url
-              const response = await fetch(infoUrl)
-              const individualData = await response.json()
-              
-              // console.log(individualData)
-              // array.push([individualData.name, individualData.id])
-              return individualData
-              
-              
-              // console.log(array)
-              // obj[] = individualData.
-              // this.setState({ pokemonInfo: obj })
-              
-            }))
+          // console.log(poke.url)
+          // we need to fetch the new url to get additional info:
+          const infoUrl = poke.url
+          const response = await fetch(infoUrl)
+          const individualData = await response.json()
+          const pokemonStats = {
+            name: individualData.name,
+            id: individualData.id,
+            types: individualData.types.map(type => `${type.type.name} `)
+          }
+          console.log(pokemonStats)
+          return pokemonStats;
+        }))
       } catch (err) {
         console.log('error: ', err)
       }
       this.setState({ pokemonInfo: array })   
       console.log('arr', array)
-      
-  })
-    // arr.forEach(user => console.log('hello', user)) 
-}
+      // array.forEach(types => console.log('types:',types.types))
+      // console.log(array[0].types[0].type.name)
+    })
+  }
 
   componentDidMount() {
     this.getAllPokemon()
-    // this.getPokemonDetails()
   }
 
   onSearchChange = (event) => {
@@ -64,13 +61,13 @@ class App extends Component {
 
   render() {
     // instead of calling this.state.searchfield and this.state.robots we can destructure:
-    const { pokemon, searchfield } = this.state
-    const filteredPokemon = pokemon.filter(creature => {
+    const { pokemonInfo, searchfield } = this.state
+    const filteredPokemon = pokemonInfo.filter(creature => {
       return creature.name.toLowerCase().includes(searchfield.toLowerCase());
     })
     
     // if(robots.length === 0) {
-    return !pokemon.length ? 
+    return !pokemonInfo.length ? 
       <h1 className='tc light-green'>Loading</h1> :
       (
         <div className='tc'>

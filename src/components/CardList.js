@@ -13,6 +13,7 @@ const CardList = ({ pokemon }) => {
 							name={user.name} 
 							// url={pokemon[i].url} 
 							id={user.id}
+							types={user.types}
 						/>
 					)
 				})
