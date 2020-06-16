@@ -9,7 +9,7 @@ const CardList = ({ pokemon }) => {
 					// console.log('user', user)
 					return (
 						<Card 
-							key={user.name} 
+							key={user.id} 
 							name={user.name} 
 							// url={pokemon[i].url} 
 							id={user.id}

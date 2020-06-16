@@ -18,7 +18,7 @@ class App extends Component {
 
 
   async getAllPokemon() {
-    const url = 'https://pokeapi.co/api/v2/pokemon?limit=4';
+    const url = 'https://pokeapi.co/api/v2/pokemon?limit=151';
     const resp = await fetch(url)
     const allData = await resp.json()
     let array = [];
@@ -38,14 +38,15 @@ class App extends Component {
             id: individualData.id,
             types: individualData.types.map(type => `${type.type.name} `)
           }
-          console.log(pokemonStats)
+          // console.log(pokemonStats)
+          
           return pokemonStats;
         }))
       } catch (err) {
         console.log('error: ', err)
       }
       this.setState({ pokemonInfo: array })   
-      console.log('arr', array)
+      // console.log('arr', array)
       // array.forEach(types => console.log('types:',types.types))
       // console.log(array[0].types[0].type.name)
     })
