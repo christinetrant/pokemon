@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'Pokemon Solid';
+  src: url(Pokemon Solid.ttf);
+}
+
+@font-face {font-family: "Flexo Light"; src: url("//db.onlinewebfonts.com/t/073a3b73a63a87e100f6bb8f003fc0d3.eot"); src: url("//db.onlinewebfonts.com/t/073a3b73a63a87e100f6bb8f003fc0d3.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/073a3b73a63a87e100f6bb8f003fc0d3.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/073a3b73a63a87e100f6bb8f003fc0d3.woff") format("woff"), url("//db.onlinewebfonts.com/t/073a3b73a63a87e100f6bb8f003fc0d3.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/073a3b73a63a87e100f6bb8f003fc0d3.svg#Flexo Light") format("svg"); }
+
+body {
+	font-family: "Flexo Light";
+  background-color: #CC0000;
+}
+
+/*h1 {
+	font-family: 'Pokemon Solid';
+	color: #FFDE00;
+	-webkit-text-stroke: 2px #3B4CCA; 
+}*/
+
+
+/*
+The Pokemon Color Scheme palette has 5 colors which are 
+Red (#FF0000), 
+Boston University Red (#CC0000), 
+Cerulean Blue (#3B4CCA), 
+Golden Yellow (#FFDE00) and 
+Gold Foil (#B3A125).
+*/
