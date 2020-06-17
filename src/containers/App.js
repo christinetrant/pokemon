@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
+// import Buttons from '../components/Buttons'
 import ErrorBoundary from '../components/ErrorBoundary';
 import './App.css';
 
@@ -11,13 +12,16 @@ class App extends Component {
     this.state = {
       pokemon: [],
       pokemonInfo: [],
-      searchfield: ''
+      searchfield: '',
+      prevLinkUrl: null,
+      nextLinkUrl: null
     }
   }
 // FOR PREV AND NEXT PAGES ON MAIN PAGE - GET PREV AND NEXT FROM POKEMON ALLdATA
+
 // FOR EACH INDIVIDUAL POKEMON - WANT ADDITIONAL INFO BUT ALSO PREV AND NEXT PAGES - LINK{ID-1} LINK{ID+1}
  
-  getOnePokemon = async (poke) => {
+  async getOnePokemon(poke) {
     // we need to fetch the new url to get additional info:
     const infoUrl = poke.url
     const response = await fetch(infoUrl)
@@ -34,19 +38,24 @@ class App extends Component {
     const url = 'https://pokeapi.co/api/v2/pokemon?limit=15';
     const resp = await fetch(url)
     const allData = await resp.json()
-    let array = [];
+    console.log(allData) 
+    // set the links for next and prev buttons
+    this.setState({prevLinkUrl: allData.previous, nextLinkUrl: allData.next})
+    console.log(this.state.prevLinkUrl, this.state.nextLinkUrl)
+    // empty array to store pokemon additional details
+    let pokemonInfoArray = [];
     // includes name and url to more infomation
-    this.setState({ pokemon: allData.results }, async () => {
+    this.setState({ pokemon: allData }, async () => {
       // then need to loop through all links with extra info:
       try {
-        array = await Promise.all(allData.results.map(async poke => {
+        pokemonInfoArray = await Promise.all(allData.results.map(async poke => {
           return this.getOnePokemon(poke)
         }))
       } catch (err) {
         console.log('error: ', err)
       }
-      this.setState({ pokemonInfo: array }) 
-      console.log(array)  
+      this.setState({ pokemonInfo: pokemonInfoArray }) 
+      // console.log(pokemonInfoArray)  
     })
   }
 
@@ -56,6 +65,28 @@ class App extends Component {
 
   onSearchChange = (event) => {
     this.setState({ searchfield: event.target.value })
+  }
+
+  // Need to fetch urls for prev and next buttons:
+  async prevBtn() {
+    // if it's null we need to return otherwise:
+    // we need to fetch the new url to get additional info:
+    const prevUrl = this.state.prevLinkUrl;
+    const response = await fetch(prevUrl)
+    const prevBtnlink = await response.json()
+    return this.setState({prevLink: prevBtnlink});
+
+  }
+
+  async nextBtn(url) {
+    // we need to fetch the new url to get additional info:
+    // const nextUrl = this.state.nextLinkUrl;
+    // console.log(this.state.nextLinkUrl)
+    // const response = await fetch(nextUrl)
+    // const nextBtnlink = await response.json()
+    // console.log(this.state.prevLinkUrl, this.state.nextLinkUrl)
+    console.log('NEXT!!!')
+    // return this.setState({nextLinkUrl: nextBtnlink});
   }
 
   render() {
@@ -84,6 +115,13 @@ class App extends Component {
               <CardList pokemon={ filteredPokemon } />
             </ErrorBoundary>
           </Scroll>
+
+          <div className='btns'>
+          {console.log('prev',  this.state.prevLinkUrl, 'next', this.state.nextLinkUrl)}
+            <button className='prevBtn' onClick={this.prevBtn}>Prev Page</button>
+            <button className='nextBtn' onClick={this.nextBtn}>Next Page</button>
+          </div>
+
         </div>
       );
   }
