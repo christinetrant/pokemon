@@ -14,10 +14,24 @@ class App extends Component {
       searchfield: ''
     }
   }
-
-
-  async getAllPokemon() {
-    const url = 'https://pokeapi.co/api/v2/pokemon?limit=151';
+// FOR PREV AND NEXT PAGES ON MAIN PAGE - GET PREV AND NEXT FROM POKEMON ALLdATA
+// FOR EACH INDIVIDUAL POKEMON - WANT ADDITIONAL INFO BUT ALSO PREV AND NEXT PAGES - LINK{ID-1} LINK{ID+1}
+ 
+  getOnePokemon = async (poke) => {
+    // we need to fetch the new url to get additional info:
+    const infoUrl = poke.url
+    const response = await fetch(infoUrl)
+    const individualData = await response.json()
+    const pokemonStats = {
+      name: individualData.name,
+      id: individualData.id,
+      types: individualData.types.map(type => `${type.type.name}`)
+    }
+    return pokemonStats;
+  }
+  
+  async getPokemon() {
+    const url = 'https://pokeapi.co/api/v2/pokemon?limit=15';
     const resp = await fetch(url)
     const allData = await resp.json()
     let array = [];
@@ -26,26 +40,18 @@ class App extends Component {
       // then need to loop through all links with extra info:
       try {
         array = await Promise.all(allData.results.map(async poke => {
-          // we need to fetch the new url to get additional info:
-          const infoUrl = poke.url
-          const response = await fetch(infoUrl)
-          const individualData = await response.json()
-          const pokemonStats = {
-            name: individualData.name,
-            id: individualData.id,
-            types: individualData.types.map(type => `${type.type.name} `)
-          }
-          return pokemonStats;
+          return this.getOnePokemon(poke)
         }))
       } catch (err) {
         console.log('error: ', err)
       }
-      this.setState({ pokemonInfo: array })   
+      this.setState({ pokemonInfo: array }) 
+      console.log(array)  
     })
   }
 
   componentDidMount() {
-    this.getAllPokemon()
+    this.getPokemon()
   }
 
   onSearchChange = (event) => {
