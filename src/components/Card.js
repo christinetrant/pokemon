@@ -10,7 +10,7 @@ const Card = ({ name, id, types }) => {
 				<div>
 					<img src={`https://pokeres.bastionbot.org/images/pokemon/${id}.png`} className='cardImg' alt={name}/>
 					<h4 className='f4'>{name}</h4>
-					<p> Id: {id}</p>
+					<p>#{id}</p>
 					<ul>
 						{types.map(type => {
 							return <li 
