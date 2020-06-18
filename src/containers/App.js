@@ -10,12 +10,12 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      url: 'https://pokeapi.co/api/v2/pokemon?limit=15',
+      // url: 'https://pokeapi.co/api/v2/pokemon?limit=151',
       pokemon: [],
       pokemonInfo: [],
       searchfield: '',
-      prevLinkUrl: null,
-      nextLinkUrl: null
+      // prevLinkUrl: null,
+      // nextLinkUrl: null
     }
   }
 // FOR PREV AND NEXT PAGES ON MAIN PAGE - GET PREV AND NEXT FROM POKEMON ALLdATA
@@ -36,13 +36,13 @@ class App extends Component {
   }
   
   async getPokemon() {
-    const url = this.state.url;
+    const url = 'https://pokeapi.co/api/v2/pokemon?limit=151';
     const resp = await fetch(url)
     const allData = await resp.json()
-    console.log(allData) 
+    // console.log(allData) 
     // set the links for next and prev buttons
-    this.setState({prevLinkUrl: allData.previous, nextLinkUrl: allData.next})
-    console.log(this.state.prevLinkUrl, this.state.nextLinkUrl)
+    // this.setState({prevLinkUrl: allData.previous, nextLinkUrl: allData.next})
+    // console.log(this.state.prevLinkUrl, this.state.nextLinkUrl)
     // empty array to store pokemon additional details
     let pokemonInfoArray = [];
     // includes name and url to more infomation
@@ -79,17 +79,16 @@ class App extends Component {
 
   }
 
-  async nextBtn() {
+  // async nextBtn() {
     // we need to fetch the new url to get additional info:
     // const nextUrl = this.state.nextLinkUrl;
     // console.log(this.state.nextLinkUrl)
     // const response = await fetch(nextUrl)
     // const nextBtnlink = await response.json()
     // console.log(this.state.prevLinkUrl, this.state.nextLinkUrl)
-    console.log('NEXT!!!')
-    console.log('irjerijari', )
+    // console.log('NEXT!!!')
     // return this.setState({nextLinkUrl: nextBtnlink});
-  }
+  // }
 
   render() {
     // instead of calling this.state.searchfield and this.state.robots we can destructure:
@@ -118,27 +117,27 @@ class App extends Component {
             </ErrorBoundary>
           </Scroll>
 
-          <div className='btns'>
+          {/*<div className='btns'>
           {console.log('prev',  this.state.prevLinkUrl, 'next', this.state.nextLinkUrl)}
             <button className='prevBtn' onClick={this.prevBtn}>Prev Page</button>
             <button 
-            className='nextBtn'
-            onClick={async () => {
-              // console.log(this.state.nextLinkUrl)
-
-              const nextUrl = this.state.nextLinkUrl;
-              // console.log(this.state.nextLinkUrl)
-              const response = await fetch(nextUrl)
-              const nextBtnlink = await response.json()
-              // console.log(this.state.prevLinkUrl, this.state.nextLinkUrl)
-              console.log('NEXT!!!')
-              console.log('irjerijari', )
-              this.setState({url: nextBtnlink});
-              this.getPokemon();
-
-
-            }}>Next Page</button>
-          </div>
+                        className='nextBtn'
+                        onClick={async () => {
+                          // console.log(this.state.nextLinkUrl)
+            
+                          const nextUrl = this.state.nextLinkUrl;
+                          // console.log(this.state.nextLinkUrl)
+                          const response = await fetch(nextUrl)
+                          const nextBtnlink = await response.json()
+                          // console.log(this.state.prevLinkUrl, this.state.nextLinkUrl)
+                          console.log('NEXT!!!')
+                          console.log('irjerijari', )
+                          this.setState({url: nextBtnlink});
+                          this.getPokemon();
+            
+            
+                        }}>Next Page</button>
+          </div>*/}
 
         </div>
       );
