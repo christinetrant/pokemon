@@ -10,6 +10,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
+      url: 'https://pokeapi.co/api/v2/pokemon?limit=15',
       pokemon: [],
       pokemonInfo: [],
       searchfield: '',
@@ -35,7 +36,7 @@ class App extends Component {
   }
   
   async getPokemon() {
-    const url = 'https://pokeapi.co/api/v2/pokemon?limit=15';
+    const url = this.state.url;
     const resp = await fetch(url)
     const allData = await resp.json()
     console.log(allData) 
@@ -78,7 +79,7 @@ class App extends Component {
 
   }
 
-  async nextBtn(url) {
+  async nextBtn() {
     // we need to fetch the new url to get additional info:
     // const nextUrl = this.state.nextLinkUrl;
     // console.log(this.state.nextLinkUrl)
@@ -86,6 +87,7 @@ class App extends Component {
     // const nextBtnlink = await response.json()
     // console.log(this.state.prevLinkUrl, this.state.nextLinkUrl)
     console.log('NEXT!!!')
+    console.log('irjerijari', )
     // return this.setState({nextLinkUrl: nextBtnlink});
   }
 
@@ -119,7 +121,23 @@ class App extends Component {
           <div className='btns'>
           {console.log('prev',  this.state.prevLinkUrl, 'next', this.state.nextLinkUrl)}
             <button className='prevBtn' onClick={this.prevBtn}>Prev Page</button>
-            <button className='nextBtn' onClick={this.nextBtn}>Next Page</button>
+            <button 
+            className='nextBtn'
+            onClick={async () => {
+              // console.log(this.state.nextLinkUrl)
+
+              const nextUrl = this.state.nextLinkUrl;
+              // console.log(this.state.nextLinkUrl)
+              const response = await fetch(nextUrl)
+              const nextBtnlink = await response.json()
+              // console.log(this.state.prevLinkUrl, this.state.nextLinkUrl)
+              console.log('NEXT!!!')
+              console.log('irjerijari', )
+              this.setState({url: nextBtnlink});
+              this.getPokemon();
+
+
+            }}>Next Page</button>
           </div>
 
         </div>
