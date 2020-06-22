@@ -16,11 +16,12 @@ class App extends Component {
       searchfield: '',
       // prevLinkUrl: null,
       // nextLinkUrl: null
+      route: 'home'
     }
   }
-// FOR PREV AND NEXT PAGES ON MAIN PAGE - GET PREV AND NEXT FROM POKEMON ALLdATA
+  // FOR PREV AND NEXT PAGES ON MAIN PAGE - GET PREV AND NEXT FROM POKEMON ALLdATA
 
-// FOR EACH INDIVIDUAL POKEMON - WANT ADDITIONAL INFO BUT ALSO PREV AND NEXT PAGES - LINK{ID-1} LINK{ID+1}
+  // FOR EACH INDIVIDUAL POKEMON - WANT ADDITIONAL INFO BUT ALSO PREV AND NEXT PAGES - LINK{ID-1} LINK{ID+1}
  
   async getOnePokemon(poke) {
     // we need to fetch the new url to get additional info:
@@ -97,50 +98,61 @@ class App extends Component {
       return creature.name.toLowerCase().includes(searchfield.toLowerCase());
     })
     
-    return !pokemonInfo.length ? 
-      (
+    { if(!pokemonInfo.length) { 
+      return (
         <div className='tc'>
           <img alt="Pokemon" src="https://fontmeme.com/permalink/200614/e133f5ffb61b822577329b6b9de59e5e.png" className="mt3 mb3"/> 
           <br/>
           <h1 className='tc light-green'>Loading</h1>
         </div>
-      ) :
-      (
-        <div className='tc'>
-          <img alt="Pokemon" src="https://fontmeme.com/permalink/200614/e133f5ffb61b822577329b6b9de59e5e.png" className="mt3 mb3"/> 
-          <br/>
-          <SearchBox searchChange = {this.onSearchChange} />
+      ) 
+    } else {
+      if(this.state.route === 'home') {
+        return (
+          <div className='tc'>
+            <img alt="Pokemon" src="https://fontmeme.com/permalink/200614/e133f5ffb61b822577329b6b9de59e5e.png" className="mt3 mb3"/> 
+            <br/>
+            <SearchBox searchChange = {this.onSearchChange} />
 
-          <Scroll>
-            <ErrorBoundary>
-              <CardList pokemon={ filteredPokemon } />
-            </ErrorBoundary>
-          </Scroll>
+            <Scroll>
+              <ErrorBoundary>
+                <CardList pokemon={ filteredPokemon } />
+              </ErrorBoundary>
+            </Scroll>
 
-          {/*<div className='btns'>
-          {console.log('prev',  this.state.prevLinkUrl, 'next', this.state.nextLinkUrl)}
-            <button className='prevBtn' onClick={this.prevBtn}>Prev Page</button>
-            <button 
-                        className='nextBtn'
-                        onClick={async () => {
-                          // console.log(this.state.nextLinkUrl)
-            
-                          const nextUrl = this.state.nextLinkUrl;
-                          // console.log(this.state.nextLinkUrl)
-                          const response = await fetch(nextUrl)
-                          const nextBtnlink = await response.json()
-                          // console.log(this.state.prevLinkUrl, this.state.nextLinkUrl)
-                          console.log('NEXT!!!')
-                          console.log('irjerijari', )
-                          this.setState({url: nextBtnlink});
-                          this.getPokemon();
-            
-            
-                        }}>Next Page</button>
-          </div>*/}
+            {/*<div className='btns'>
+            {console.log('prev',  this.state.prevLinkUrl, 'next', this.state.nextLinkUrl)}
+              <button className='prevBtn' onClick={this.prevBtn}>Prev Page</button>
+              <button 
+                          className='nextBtn'
+                          onClick={async () => {
+                            // console.log(this.state.nextLinkUrl)
+              
+                            const nextUrl = this.state.nextLinkUrl;
+                            // console.log(this.state.nextLinkUrl)
+                            const response = await fetch(nextUrl)
+                            const nextBtnlink = await response.json()
+                            // console.log(this.state.prevLinkUrl, this.state.nextLinkUrl)
+                            console.log('NEXT!!!')
+                            console.log('irjerijari', )
+                            this.setState({url: nextBtnlink});
+                            this.getPokemon();
+              
+              
+                          }}>Next Page</button>
+            </div>*/}
 
-        </div>
-      );
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <p>I'm a new page!</p>
+          </div>
+        )
+      }
+    }
+  }
   }
 }
 export default App;
