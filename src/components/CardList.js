@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './Card';
 
-const CardList = ({ pokemon }) => {
+const CardList = ({ pokemon, onRouteChange }) => {
 	return (
 		<div>
 			{
@@ -14,6 +14,7 @@ const CardList = ({ pokemon }) => {
 							// url={pokemon[i].url} 
 							id={user.id}
 							types={user.types}
+							onRouteChange={onRouteChange}
 						/>
 					)
 				})

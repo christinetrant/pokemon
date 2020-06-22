@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
+import PokemonCard from '../components/PokemonCard';
 // import Buttons from '../components/Buttons'
 import ErrorBoundary from '../components/ErrorBoundary';
 import './App.css';
@@ -16,7 +17,8 @@ class App extends Component {
       searchfield: '',
       // prevLinkUrl: null,
       // nextLinkUrl: null
-      route: 'home'
+      route: 'home',
+      isMainPage: true
     }
   }
   // FOR PREV AND NEXT PAGES ON MAIN PAGE - GET PREV AND NEXT FROM POKEMON ALLdATA
@@ -69,16 +71,25 @@ class App extends Component {
     this.setState({ searchfield: event.target.value })
   }
 
-  // Need to fetch urls for prev and next buttons:
-  async prevBtn() {
-    // if it's null we need to return otherwise:
-    // we need to fetch the new url to get additional info:
-    const prevUrl = this.state.prevLinkUrl;
-    const response = await fetch(prevUrl)
-    const prevBtnlink = await response.json()
-    return this.setState({prevLink: prevBtnlink});
-
+  onRouteChange = (route) => {
+    if(route === 'home') {
+      this.setState({isMainPage: true})
+    } else if (route === 'single') {
+      this.setState({isMainPage: false})
+    }
+    this.setState({route: route});
   }
+
+  // Need to fetch urls for prev and next buttons:
+  // async prevBtn() {
+  //   // if it's null we need to return otherwise:
+  //   // we need to fetch the new url to get additional info:
+  //   const prevUrl = this.state.prevLinkUrl;
+  //   const response = await fetch(prevUrl)
+  //   const prevBtnlink = await response.json()
+  //   return this.setState({prevLink: prevBtnlink});
+
+  // }
 
   // async nextBtn() {
     // we need to fetch the new url to get additional info:
@@ -116,7 +127,11 @@ class App extends Component {
 
             <Scroll>
               <ErrorBoundary>
-                <CardList pokemon={ filteredPokemon } />
+                <CardList 
+                pokemon={ filteredPokemon } 
+                isMainPage={this.state.isMainPage}
+                onRouteChange={this.onRouteChange}
+              />
               </ErrorBoundary>
             </Scroll>
 
@@ -144,10 +159,16 @@ class App extends Component {
 
           </div>
         );
-      } else {
+      } else if(this.state.route === 'single') {
         return (
-          <div>
-            <p>I'm a new page!</p>
+          <div className='tc'>
+            {/*<PokemonCard 
+              pokemon={ filteredPokemon } 
+              isMainPage={this.state.isMainPage}
+              onRouteChange={this.onRouteChange}
+            />*/}
+            <p onClick={() => this.onRouteChange('home')}>Back</p>
+            <p>hello</p>
           </div>
         )
       }
