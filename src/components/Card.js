@@ -7,7 +7,10 @@ const Card = ({ name, id, types, onRouteChange, isMainPage }) => {
 		<Fragment>
 			<div 
 			className='bg-white br3 tc dib pa2 ma2 grow shadow-5 ba bw1 b--black'
-			onClick={() => onRouteChange('single')}>
+			onClick={() => {
+				console.log(id)
+				onRouteChange('single')
+			}}>
 				
 				<div>
 					<img src={`https://pokeres.bastionbot.org/images/pokemon/${id}.png`} className='cardImg' alt={name}/>

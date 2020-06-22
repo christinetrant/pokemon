@@ -30,6 +30,7 @@ class App extends Component {
     const infoUrl = poke.url
     const response = await fetch(infoUrl)
     const individualData = await response.json()
+    console.log(individualData)
     const pokemonStats = {
       name: individualData.name,
       id: individualData.id,
@@ -70,7 +71,9 @@ class App extends Component {
   onSearchChange = (event) => {
     this.setState({ searchfield: event.target.value })
   }
-
+  onButtonClick = (event) => {
+    console.log(event.target.value)
+  }
   onRouteChange = (route) => {
     if(route === 'home') {
       this.setState({isMainPage: true})
