@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
-import PokemonCard from '../components/PokemonCard';
+import PokemonStats from '../components/PokemonStats';
 // import Buttons from '../components/Buttons'
 import ErrorBoundary from '../components/ErrorBoundary';
 import './App.css';
@@ -18,7 +18,8 @@ class App extends Component {
       // prevLinkUrl: null,
       // nextLinkUrl: null
       route: 'home',
-      isMainPage: true
+      isMainPage: true,
+      singlePokemon: []
     }
   }
   // FOR PREV AND NEXT PAGES ON MAIN PAGE - GET PREV AND NEXT FROM POKEMON ALLdATA
@@ -27,14 +28,18 @@ class App extends Component {
  
   async getOnePokemon(poke) {
     // we need to fetch the new url to get additional info:
-    const infoUrl = poke.url
-    const response = await fetch(infoUrl)
+    // const infoUrl = poke.url
+    console.log('poke',poke)
+    const response = await fetch(poke)
     const individualData = await response.json()
-    console.log(individualData)
+    // console.log(individualData)
     const pokemonStats = {
       name: individualData.name,
       id: individualData.id,
-      types: individualData.types.map(type => `${type.type.name}`)
+      types: individualData.types.map(type => `${type.type.name}`),
+      abilities: individualData.abilities.map(type => `${type.ability.name}`),
+      height: individualData.height,
+      weight: individualData.weight
     }
     return pokemonStats;
   }
@@ -54,7 +59,7 @@ class App extends Component {
       // then need to loop through all links with extra info:
       try {
         pokemonInfoArray = await Promise.all(allData.results.map(async poke => {
-          return this.getOnePokemon(poke)
+          return this.getOnePokemon(poke.url)
         }))
       } catch (err) {
         console.log('error: ', err)
@@ -71,9 +76,7 @@ class App extends Component {
   onSearchChange = (event) => {
     this.setState({ searchfield: event.target.value })
   }
-  onButtonClick = (event) => {
-    console.log(event.target.value)
-  }
+ 
   onRouteChange = (route) => {
     if(route === 'home') {
       this.setState({isMainPage: true})
@@ -82,7 +85,12 @@ class App extends Component {
     }
     this.setState({route: route});
   }
-
+  onButtonSubmit = (event) => {
+    console.log('id', event.target)
+    this.onRouteChange('single')
+    const singlePokemon = this.getOnePokemon(this.poke)
+    this.setState({ singlePokemon: singlePokemon }) 
+  }
   // Need to fetch urls for prev and next buttons:
   // async prevBtn() {
   //   // if it's null we need to return otherwise:
@@ -131,10 +139,11 @@ class App extends Component {
             <Scroll>
               <ErrorBoundary>
                 <CardList 
-                pokemon={ filteredPokemon } 
-                isMainPage={this.state.isMainPage}
-                onRouteChange={this.onRouteChange}
-              />
+                  pokemon={ filteredPokemon } 
+                  isMainPage={this.state.isMainPage}
+                  onRouteChange={this.onRouteChange}
+                  onButtonSubmit={this.onButtonSubmit} 
+                />
               </ErrorBoundary>
             </Scroll>
 
@@ -165,13 +174,19 @@ class App extends Component {
       } else if(this.state.route === 'single') {
         return (
           <div className='tc'>
-            {/*<PokemonCard 
-              pokemon={ filteredPokemon } 
-              isMainPage={this.state.isMainPage}
-              onRouteChange={this.onRouteChange}
-            />*/}
             <p onClick={() => this.onRouteChange('home')}>Back</p>
-            <p>hello</p>
+            <PokemonStats 
+                pokemon={ this.singlePokemon } 
+                isMainPage={this.state.isMainPage}
+                onRouteChange={this.onRouteChange}
+                onButtonSubmit={this.onButtonSubmit} 
+                // pokemonInfo={ this.pokemonInfo }
+                // key={this.state.pokemonInfo.id} 
+                // name={this.state.pokemonInfo.name} 
+                // // url={pokemon[i].url} 
+                // id={this.state.pokemonInfo.id}
+                // types={this.state.pokemonInfo.types}
+            />
           </div>
         )
       }

@@ -1,27 +1,24 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import PokemonCard from './PokemonCard';
 
-const PokemonStats = ({ name, id, types, onRouteChange, isMainPage }) => {
-	// destructuring but we can put below in parameter above instead of props
+const PokemonStats = ({ pokemon, onRouteChange }) => {
 	return (
-		<Fragment>
-			<div 
-			className='bg-white br3 tc dib pa2 ma2 grow shadow-5 ba bw1 b--black'>	
-				<div>
-					<img src={`https://pokeres.bastionbot.org/images/pokemon/${id}.png`} className='cardImg' alt={name}/>
-					<h4 className='f4'>{name}</h4>
-					<p>#{id}</p>
-					<ul>
-						{types.map(type => {
-							return <li 
-							className={type}
-							key={type}>
-								{type}
-							</li>
-						})}
-					</ul>
-				</div>
-			</div>
-		</Fragment>
+		<div>
+			
+						<PokemonCard 
+							// key={pokemon.id} 
+							// name={pokemon.name} 
+							// // url={pokemon[i].url} 
+							// id={pokemon.id}
+							// types={pokemon.types}
+							// onRouteChange={onRouteChange}
+							// abilities={pokemon.abilities}
+							// height={pokemon.height}
+							// weight={pokemon.weight}
+						/>
+					
+		
+	   </div>
 	);
 }
 
