@@ -86,9 +86,23 @@ class App extends Component {
     this.setState({route: route});
   }
   onButtonSubmit = (event) => {
-    console.log('id', event.target)
+    let pokemonId, url;
+    console.log('event target', event.target.parentNode)
+    // console.log('parent', event.target.parentNode)
+    if(document.getElementById('cardElement') === event.target) {
+      console.log('normal', event.target.childNodes[0].id)
+      console.log('normal', event.target.childNodes[0].id)
+      pokemonId = event.target.childNodes[0].id;
+      url = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`
+      console.log(url)
+    } else if(document.getElementById('cardElement') === event.target.parentNode) {
+      console.log('parent', event.target.parentNode.childNodes[0].id)
+    } else if(document.getElementById('cardElement') === event.target.parentNode.parentNode) {
+      console.log('parent', event.target.parentNode.parentNode.childNodes[0].id)
+    }
     this.onRouteChange('single')
-    const singlePokemon = this.getOnePokemon(this.poke)
+    console.log(url)
+    const singlePokemon = this.getOnePokemon(url)
     this.setState({ singlePokemon: singlePokemon }) 
   }
   // Need to fetch urls for prev and next buttons:
