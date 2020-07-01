@@ -8,7 +8,7 @@ const PokemonStats = ({ pokemon, onRouteChange }) => {
 						<PokemonCard 
 							// key={pokemon.id} 
 							// name={pokemon.name} 
-							// // url={pokemon[i].url} 
+							// url={pokemon[i].url} 
 							// id={pokemon.id}
 							// types={pokemon.types}
 							// onRouteChange={onRouteChange}

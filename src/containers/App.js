@@ -29,7 +29,7 @@ class App extends Component {
   async getOnePokemon(poke) {
     // we need to fetch the new url to get additional info:
     // const infoUrl = poke.url
-    console.log('poke',poke)
+    // console.log('poke',poke)
     const response = await fetch(poke)
     const individualData = await response.json()
     // console.log(individualData)
@@ -87,23 +87,26 @@ class App extends Component {
   }
   onButtonSubmit = (event) => {
     let pokemonId, url;
-    console.log('event target', event.target.parentNode)
+    const pokemonElement = document.getElementById('cardElement');
+    const eventTarget = event.target
+    // console.log('event target', eventTarget.parentNode)
     // console.log('parent', event.target.parentNode)
-    if(document.getElementById('cardElement') === event.target) {
-      console.log('normal', event.target.childNodes[0].id)
-      console.log('normal', event.target.childNodes[0].id)
-      pokemonId = event.target.childNodes[0].id;
-      url = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`
-      console.log(url)
-    } else if(document.getElementById('cardElement') === event.target.parentNode) {
-      console.log('parent', event.target.parentNode.childNodes[0].id)
-    } else if(document.getElementById('cardElement') === event.target.parentNode.parentNode) {
-      console.log('parent', event.target.parentNode.parentNode.childNodes[0].id)
+    if(pokemonElement === eventTarget) {
+      // console.log('normal', eventTarget.childNodes[0].id)
+      pokemonId = eventTarget.childNodes[0].id;
+    } else if(pokemonElement === eventTarget.parentNode) {
+      // console.log('parent', eventTarget.parentNode.childNodes[0].id)
+      pokemonId = eventTarget.parentNode.childNodes[0].id;
+    } else if(pokemonElement === eventTarget.parentNode.parentNode) {
+      // console.log('parent', eventTarget.parentNode.parentNode.childNodes[0].id)
+      pokemonId = eventTarget.parentNode.parentNode.childNodes[0].id;
     }
+    url = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`
     this.onRouteChange('single')
-    console.log(url)
-    const singlePokemon = this.getOnePokemon(url)
-    this.setState({ singlePokemon: singlePokemon }) 
+    // console.log(url)
+    const singlePokemonUrl = this.getOnePokemon(url)
+    this.setState({ singlePokemon: singlePokemonUrl }) 
+    // console.log(singlePokemonUrl)
   }
   // Need to fetch urls for prev and next buttons:
   // async prevBtn() {
